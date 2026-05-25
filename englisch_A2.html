@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Englisch A2 Quiz – Kahoot Style</title>
+  <style>
+    :root{--purple:#4b148c;--dark:#24103f;--green:#2ecc71;--red:#e74c3c;--blue:#3498db;--yellow:#f1c40f;--orange:#e67e22;}
+    *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#4b148c,#7d3cff);color:white;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}.app{width:min(980px,100%);background:rgba(255,255,255,.12);border-radius:28px;box-shadow:0 20px 60px rgba(0,0,0,.35);overflow:hidden}.header{padding:20px 26px;background:rgba(0,0,0,.2);display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}.title{font-size:26px;font-weight:900}.pill{background:white;color:var(--purple);border-radius:999px;padding:10px 16px;font-weight:800}.screen{padding:32px}.start{text-align:center}.start h1{font-size:44px;margin:10px 0}.start p{font-size:20px;line-height:1.45}.btn{border:0;border-radius:16px;padding:16px 26px;font-size:20px;font-weight:900;cursor:pointer;box-shadow:0 8px 0 rgba(0,0,0,.25);transition:.1s transform}.btn:active{transform:translateY(4px);box-shadow:0 4px 0 rgba(0,0,0,.25)}.btn-start{background:#fff;color:var(--purple);margin-top:18px}.question-box{background:white;color:#222;border-radius:24px;padding:30px;text-align:center;margin-bottom:24px}.meta{display:flex;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}.progress{height:12px;background:rgba(255,255,255,.25);border-radius:999px;overflow:hidden;margin:14px 0 0}.bar{height:100%;background:#fff;width:0%;transition:.3s}.qtext{font-size:34px;font-weight:900;line-height:1.25}.answers{display:grid;grid-template-columns:1fr 1fr;gap:16px}.answer{min-height:112px;border:0;border-radius:22px;color:white;font-size:25px;font-weight:900;cursor:pointer;padding:20px;display:flex;align-items:center;justify-content:center;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.25)}.answer:nth-child(1){background:var(--red)}.answer:nth-child(2){background:var(--blue)}.answer:nth-child(3){background:var(--yellow);color:#222}.answer:nth-child(4){background:var(--green)}.answer.correct{outline:7px solid white;filter:brightness(1.08)}.answer.wrong{opacity:.45;filter:grayscale(.2)}.feedback{text-align:center;font-size:28px;font-weight:900;min-height:42px;margin-top:20px}.next-wrap{text-align:center;margin-top:10px}.hidden{display:none}.result{text-align:center}.result h2{font-size:46px;margin:8px 0}.result-card{background:white;color:#222;border-radius:24px;padding:30px;margin:20px auto;max-width:640px}.score-big{font-size:56px;font-weight:900;color:var(--purple)}.review{text-align:left;margin-top:22px;max-height:300px;overflow:auto}.review div{background:#f2f2f2;color:#222;border-radius:12px;padding:10px 14px;margin:8px 0}@media(max-width:700px){.answers{grid-template-columns:1fr}.qtext{font-size:26px}.answer{font-size:21px}.start h1{font-size:34px}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="header">
+      <div class="title">🎮 Englisch Quiz A2</div>
+      <div class="pill" id="scorePill">Punkte: 0</div>
+    </div>
+    <section class="screen start" id="startScreen">
+      <h1>Kahoot-Style Quiz</h1>
+      <p>25 Fragen auf Niveau A2: Grammatik, Wortschatz und Alltagssprache.<br>Wähle die richtige Antwort und sammle Punkte!</p>
+      <button class="btn btn-start" onclick="startQuiz()">Start</button>
+    </section>
+    <section class="screen hidden" id="quizScreen">
+      <div class="meta">
+        <div class="pill" id="questionNo">Frage 1/25</div>
+        <div class="pill" id="level">Niveau A2</div>
+      </div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="question-box"><div class="qtext" id="questionText"></div></div>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="next-wrap"><button class="btn btn-start hidden" id="nextBtn" onclick="nextQuestion()">Weiter</button></div>
+    </section>
+    <section class="screen result hidden" id="resultScreen">
+      <h2>Quiz beendet!</h2>
+      <div class="result-card">
+        <div>Dein Ergebnis:</div>
+        <div class="score-big" id="finalScore"></div>
+        <p id="resultText"></p>
+        <button class="btn btn-start" onclick="restartQuiz()">Nochmal spielen</button>
+        <div class="review" id="review"></div>
+      </div>
+    </section>
+  </main>
+
+<script>
+const questions = [
+  {q:"Choose the correct sentence.", a:["She go to school.","She goes to school.","She going school.","She gos to school."], c:1},
+  {q:"What is the past simple of 'buy'?", a:["buyed","bought","buys","buying"], c:1},
+  {q:"Complete: I ___ breakfast at 7 o'clock.", a:["has","have","having","am have"], c:1},
+  {q:"Which word means 'billig' in German?", a:["cheap","expensive","tired","busy"], c:0},
+  {q:"Complete: There ___ a bank near here.", a:["are","is","am","be"], c:1},
+  {q:"Choose the correct question.", a:["Where you live?","Where do you live?","Where does you live?","Where live you?"], c:1},
+  {q:"Complete: We went to London ___ train.", a:["by","on","with","in"], c:0},
+  {q:"What is the opposite of 'early'?", a:["late","fast","slow","soon"], c:0},
+  {q:"Complete: I am ___ than my brother.", a:["tall","taller","the tallest","more tall"], c:1},
+  {q:"Choose the correct answer: Do you like pizza?", a:["Yes, I do.","Yes, I am.","Yes, I like.","Yes, I does."], c:0},
+  {q:"Complete: She is wearing a blue ___.", a:["shoes","dress","trousers","socks"], c:1},
+  {q:"What does 'usually' mean?", a:["nie","gewöhnlich / normalerweise","gestern","vielleicht"], c:1},
+  {q:"Complete: I ___ TV when my friend called.", a:["watch","watched","was watching","am watching"], c:2},
+  {q:"Choose the correct sentence.", a:["He can swims.","He can swim.","He cans swim.","He can swimming."], c:1},
+  {q:"Complete: We don't have ___ milk.", a:["some","any","a","many"], c:1},
+  {q:"Which sentence is a polite request?", a:["Give me water!","Could I have some water, please?","Water now!","You give water?"], c:1},
+  {q:"Complete: My birthday is ___ May.", a:["in","on","at","to"], c:0},
+  {q:"What is the plural of 'child'?", a:["childs","childes","children","childrens"], c:2},
+  {q:"Complete: I have lived here ___ 2022.", a:["for","since","from","during"], c:1},
+  {q:"Choose the correct translation: 'Ich suche meine Schlüssel.'", a:["I look my keys.","I am looking for my keys.","I am finding my keys.","I search to my keys."], c:1},
+  {q:"Complete: If it rains, we ___ at home.", a:["stay","will stay","stayed","staying"], c:1},
+  {q:"Which word is a job?", a:["teacher","kitchen","sunny","quickly"], c:0},
+  {q:"Complete: This book is ___.", a:["my","mine","me","I"], c:1},
+  {q:"Choose the correct past sentence.", a:["Yesterday I go shopping.","Yesterday I goed shopping.","Yesterday I went shopping.","Yesterday I going shopping."], c:2},
+  {q:"Complete: I would like ___ coffee, please.", a:["a","some","many","any"], c:1}
+];
+let current=0, score=0, answered=false, review=[];
+function startQuiz(){document.getElementById('startScreen').classList.add('hidden');document.getElementById('quizScreen').classList.remove('hidden');showQuestion();}
+function showQuestion(){answered=false;const q=questions[current];document.getElementById('questionNo').textContent=`Frage ${current+1}/25`;document.getElementById('questionText').textContent=q.q;document.getElementById('bar').style.width=`${(current/questions.length)*100}%`;document.getElementById('feedback').textContent='';document.getElementById('nextBtn').classList.add('hidden');const box=document.getElementById('answers');box.innerHTML='';q.a.forEach((ans,i)=>{const btn=document.createElement('button');btn.className='answer';btn.textContent=ans;btn.onclick=()=>chooseAnswer(i,btn);box.appendChild(btn);});}
+function chooseAnswer(i){if(answered)return;answered=true;const q=questions[current];const buttons=[...document.querySelectorAll('.answer')];buttons.forEach((b,idx)=>{if(idx===q.c)b.classList.add('correct'); if(idx!==q.c)b.classList.add('wrong');});if(i===q.c){score+=1000;document.getElementById('feedback').textContent='✅ Richtig! +1000 Punkte';review.push(`✅ Frage ${current+1}: richtig`);}else{document.getElementById('feedback').textContent=`❌ Falsch. Richtig: ${q.a[q.c]}`;review.push(`❌ Frage ${current+1}: richtig war „${q.a[q.c]}“`);}document.getElementById('scorePill').textContent=`Punkte: ${score}`;document.getElementById('nextBtn').classList.remove('hidden');}
+function nextQuestion(){current++;if(current<questions.length){showQuestion();}else{endQuiz();}}
+function endQuiz(){document.getElementById('quizScreen').classList.add('hidden');document.getElementById('resultScreen').classList.remove('hidden');document.getElementById('bar').style.width='100%';const correct=score/1000;document.getElementById('finalScore').textContent=`${correct}/25`;let text='Gut gemacht!';if(correct>=22) text='Super! Das ist ein sehr starkes A2-Ergebnis.';else if(correct>=17) text='Sehr gut! Du bist sicher auf A2-Niveau.';else if(correct>=12) text='Ordentlich! Wiederhole noch ein paar A2-Themen.';else text='Übe weiter: Zeiten, Fragen und Alltagswortschatz helfen dir besonders.';document.getElementById('resultText').textContent=text;document.getElementById('review').innerHTML='<h3>Auswertung</h3>'+review.map(r=>`<div>${r}</div>`).join('');}
+function restartQuiz(){current=0;score=0;review=[];document.getElementById('scorePill').textContent='Punkte: 0';document.getElementById('resultScreen').classList.add('hidden');document.getElementById('quizScreen').classList.remove('hidden');showQuestion();}
+</script>
+</body>
+</html>
